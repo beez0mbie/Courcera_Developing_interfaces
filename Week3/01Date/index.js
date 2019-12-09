@@ -2,8 +2,7 @@
  * @param {String} date
  * @returns {Object}
  */
-// module.exports = 
-function date(date) {
+module.exports = function date(date) {
 
     let formatedDate = date.split(/[-]|[T]|[:]|[ ]/g)
     let years = Number(formatedDate[0])
@@ -14,24 +13,24 @@ function date(date) {
     let foo
     let newDate = new Date(Date.UTC(years,months,days,hours,minutes));
 
-    console.log(newDate.toISOString().split(/[-]|[T]|[:]/g));
+    //console.log(newDate.toISOString().split(/[-]|[T]|[:]/g));
     
     let add = function (value, time) {
         if (value >= 0) {
             switch(time) {
                 case 'minutes':
-                    minutes += value;
-                    newDate.setMinutes(minutes);
+                    temp = minutes + value;
+                    newDate.setMinutes(temp);
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                    break
-                case 'hours':
-                    hours += value;
-                    newDate.setHours(hours);
-                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
+                case 'hours':             
+                    temp = minutes + value * 60;         
+                    newDate.setMinutes(temp);
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);                    
                     break
                 case 'days':
-                    days += value;
-                    newDate.setDate(days);
+                    temp = minutes + value * 24 * 60;
+                    newDate.setMinutes(temp);
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                     break
                 case 'months':
@@ -45,6 +44,42 @@ function date(date) {
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                 break
                 default:
+                    throw new TypeError(`unexpected time = ${time}`)
+            }
+        } else {
+            throw new TypeError(`unexpected value = ${value}`)
+        }
+        return this;
+    }
+    let subtract = function (value, time) {
+        if (value >= 0) {
+            switch(time) {
+                case 'minutes':
+                    temp = minutes - value;
+                    newDate.setMinutes(temp);
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
+                   break
+                case 'hours':             
+                    temp = minutes - value * 60;         
+                    newDate.setMinutes(temp);
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);                    
+                    break
+                case 'days':
+                    temp = minutes - value * 24 * 60;
+                    newDate.setMinutes(temp);
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
+                    break
+                case 'months':
+                    months -= value;
+                    newDate.setMonth(months);
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
+                    break
+                case 'years' :
+                    years -= value;
+                    newDate.setFullYear(years)
+                    this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
+                break
+                default:
                     throw new Error(`unexpected time = ${time}`)
             }
         } else {
@@ -52,14 +87,10 @@ function date(date) {
         }
         return this;
     }
-    let subtract = function () {
-        return this;
-    }
    
     return {
         add: add,
         subtract: subtract
-        //newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3)
     }
 
     
@@ -67,8 +98,11 @@ function date(date) {
 
 
 
-let time = date('2017-05-16 13:45').add(3, 'minutes').add(3, 'days').add(15, 'minutes').add(24, 'hours');
-console.log(time.value);
+// let time = date('2017-05-16 13:45').add(24, 'hours')
+// .subtract(1, 'months')
+// .add(3, 'days')
+// .add(15, 'minutes')
+// console.log(time.value);
 
 
 //console.log(date.toISOString().split(/[-]|[T]|[:]/g));
