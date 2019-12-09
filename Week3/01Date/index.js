@@ -13,7 +13,7 @@ module.exports = function date(date) {
     let foo
     let newDate = new Date(Date.UTC(years,months,days,hours,minutes));
 
-    //console.log(newDate.toISOString().split(/[-]|[T]|[:]/g));
+    // console.log(newDate.toISOString().split(/[-]|[T]|[:]/g));
     
     let add = function (value, time) {
         if (value >= 0) {
@@ -57,6 +57,7 @@ module.exports = function date(date) {
             switch(time) {
                 case 'minutes':
                     temp = minutes - value;
+                    minutes = minutes - value;
                     newDate.setMinutes(temp);
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                    break
@@ -99,21 +100,21 @@ module.exports = function date(date) {
 
 
 
-// let time = date('2015-01-01 00:00')
-// .add(5, 'minutes')
-// .add(1, 'hours')
-// .add(2, 'days')
-// .add(3, 'months')
-// .add(1, 'years')
+// let time = date('2016-04-03 01:05')
+// .subtract(5, 'minutes')
+// .subtract(1, 'hours')
+// .subtract(2, 'days')
+// .subtract(3, 'months')
+// .subtract(1, 'years')
 // console.log(time.value);
 
-// Дата "2015-01-01 00:00" после операций "[
-//     ["add",5,"minutes"],
-//     ["add",1,"hours"],
-//     ["add",2,"days"],
-//     ["add",3,"months"],
-//     ["add",1,"years"]]" должна стать "
-//     2016-04-03 01:05",
+// Дата "2016-04-03 01:05" после операций "[
+//     ["subtract",5,"minutes"],
+//     ["subtract",1,"hours"],
+//     ["subtract",2,"days"],
+//     ["subtract",3,"months"],
+//     ["subtract",1,"years"]]"
+//     должна стать "2015-01-01 00:00",
 
 //console.log(date.toISOString().split(/[-]|[T]|[:]/g));
 
