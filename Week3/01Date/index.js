@@ -20,11 +20,12 @@ module.exports = function date(date) {
             switch(time) {
                 case 'minutes':
                     temp = minutes + value;
+                    minutes = minutes + value
                     newDate.setMinutes(temp);
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                    break
                 case 'hours':             
-                    temp = minutes + value * 60;         
+                    temp = minutes + value * 60;        
                     newDate.setMinutes(temp);
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);                    
                     break
@@ -80,10 +81,10 @@ module.exports = function date(date) {
                     this.value = newDate.toISOString().split(/[T]|[.]/g).slice(0,2).join(' ').slice(0,-3);
                 break
                 default:
-                    throw new Error(`unexpected time = ${time}`)
+                    throw new TypeError(`unexpected time = ${time}`)
             }
         } else {
-            throw new Error(`unexpected value = ${value}`)
+            throw new TypeError(`unexpected value = ${value}`)
         }
         return this;
     }
@@ -98,12 +99,21 @@ module.exports = function date(date) {
 
 
 
-// let time = date('2017-05-16 13:45').add(24, 'hours')
-// .subtract(1, 'months')
-// .add(3, 'days')
-// .add(15, 'minutes')
+// let time = date('2015-01-01 00:00')
+// .add(5, 'minutes')
+// .add(1, 'hours')
+// .add(2, 'days')
+// .add(3, 'months')
+// .add(1, 'years')
 // console.log(time.value);
 
+// Дата "2015-01-01 00:00" после операций "[
+//     ["add",5,"minutes"],
+//     ["add",1,"hours"],
+//     ["add",2,"days"],
+//     ["add",3,"months"],
+//     ["add",1,"years"]]" должна стать "
+//     2016-04-03 01:05",
 
 //console.log(date.toISOString().split(/[-]|[T]|[:]/g));
 
